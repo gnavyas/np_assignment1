@@ -137,3 +137,41 @@ int main(int argc, char *argv[])
 	    strcpy(sendMsg, myANSWER); 
     	send(client, sendMsg, buffLength, 0); 
     }
+    else{
+    	
+    	int v1 = stoi(recievedOP[1]);
+    	int v2 = stoi(recievedOP[2]);
+    	int myAns;
+
+    	if( recievedOP[0]=="div" )
+    		myAns = v1/v2;
+
+    	else if( recievedOP[0] == "add" )
+    		myAns = v1+v2;
+
+    	else if( recievedOP[0]=="sub" )
+    		myAns = v1-v2;
+    	
+    	else myAns = v1*v2;
+
+    	char myANSWER[100];
+	    int j=0;
+	    string ans = to_string(myAns);
+	    for(int i=0;i<ans.length();i++)
+	    	myANSWER[j++] = ans[i];
+	    myANSWER[j] = '\0';
+	    
+	    strcpy(sendMsg, myANSWER); 
+    	send(client, sendMsg, buffLength, 0); 
+    }
+
+    recv(client, recieve, buffLength, 0); 
+	printf("Server's RESPONSE []: %s\n", recieve); 
+	    
+	
+    
+    
+    return 0; 
+  
+
+}
