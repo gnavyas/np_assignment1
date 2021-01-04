@@ -98,3 +98,163 @@ int main(int argc, char *argv[])
   			strcpy(sendMsg, tcpVersions[i]); 
         	send(acc, sendMsg, buffLength, 0); 
   		}
+  		recv(acc, recieve, buffLength, 0); 
+        printf("Client : %s", recieve); 
+        cout << "\n";
+
+
+        vector<string> availableOps;
+        availableOps.push_back("add");
+        availableOps.push_back("fadd");
+        availableOps.push_back("sub");
+        availableOps.push_back("fsub");
+        availableOps.push_back("div");
+        availableOps.push_back("fdiv");
+        availableOps.push_back("mul");
+        availableOps.push_back("fmul");
+
+        srand(time(0));
+
+       	
+  		int rand_op = rand()%8;
+  		string currentOperation = availableOps[rand_op];
+  			
+  		// integer PART
+		if( currentOperation[0] != 'f' )
+		{
+				
+			int v1 = rand()%RANDMAX;
+			int v2 = rand()%RANDMAX;
+			int actualAns;
+			if( currentOperation == "add" )
+				actualAns = v1+v2;
+
+			if( currentOperation=="mul" )
+				actualAns = v1*v2;
+
+
+			if( currentOperation == "sub" )
+				actualAns = v1-v2;
+			
+			if( currentOperation=="div" )
+			{
+				// no divison of 0 is allowed
+				if(v2 == 0)
+					v2++;
+				actualAns = v1/v2;
+			}
+				
+
+			string s1 = to_string(v1);
+			string s2 = to_string(v2);
+			string s3 = currentOperation;
+			string ret = s3 + " " + s1 + " " + s2;
+			string outputString = ret;
+
+
+			char send_str[100];
+			int j = 0;
+			for(int i=0;i<outputString.length();i++)
+				send_str[j++] = outputString[i];
+			send_str[j] = '\0';
+
+
+			printf("Task: %s\n",send_str );
+			strcpy(sendMsg, send_str); 
+    		send(acc, sendMsg, buffLength, 0); 
+
+    		recv(acc, recieve, buffLength, 0); 
+    		printf("Client's Response : %s\n", recieve); 
+    		cout << "\n";
+
+    		string b = recieve;
+    		int clientAnswer = stoi(b);
+    		if( abs(clientAnswer-actualAns) == 0 )
+    		{
+    			strcpy(sendMsg, "OK"); 
+    			send(acc, sendMsg, buffLength, 0); 
+    		}
+			else
+    		{
+    			strcpy(sendMsg, "ERROR"); 
+    			send(acc, sendMsg, buffLength, 0); 
+    		}
+
+			
+				
+
+		}
+
+		// floating PART
+		else
+		{
+				
+			float A = rand()%RANDMAX;
+			float B = rand()%100;
+			float v1 = A/B;
+
+			A = rand()%RANDMAX;
+			B = rand()%100;
+			float v2 = A/B;
+				
+			float actualAns;
+			if( currentOperation=="fmul" )
+				actualAns = v1*v2;
+
+			if( currentOperation == "fadd" )
+				actualAns = v1+v2;
+
+			if( currentOperation == "fsub" )
+				actualAns = v1-v2;
+			
+			if( currentOperation=="fdiv" )
+			{
+				// no divison of 0 is allowed
+				if((int)v2 == 0)
+					v2+=1.0;
+				actualAns = v1/v2;
+			}
+				
+			string s1 = to_string(v1);
+			string s2 = to_string(v2);
+			string s3 = currentOperation;
+			string ret = s3 + " " + s1 + " " + s2;
+			string outputString = ret;
+
+			char send_str[100];
+			int j = 0;
+			for(int i=0;i<outputString.length();i++)
+				send_str[j++] = outputString[i];
+			send_str[j] = '\0';
+
+
+			printf("Task : %s\n",send_str );
+			strcpy(sendMsg, send_str); 
+    		send(acc, sendMsg, buffLength, 0); 
+
+    		recv(acc, recieve, buffLength, 0); 
+    		printf("Client's Response : %s\n", recieve); 
+    		cout << "\n";
+
+    		string b = recieve;
+    		float clientAnswer = stof(b);
+    		if( abs(clientAnswer-actualAns) < 0.0001 )
+    		{
+    			strcpy(sendMsg, "OK"); 
+    			send(acc, sendMsg, buffLength, 0); 
+    		}
+			else
+    		{
+    			strcpy(sendMsg, "ERROR"); 
+    			send(acc, sendMsg, buffLength, 0); 
+    		}
+		}
+
+  			
+        
+        
+    }  
+    return 0; 
+
+
+}
