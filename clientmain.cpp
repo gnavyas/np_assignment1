@@ -1,3 +1,4 @@
+#include <unistd.h> 
 #include <sys/socket.h> 
 #include <netinet/in.h> 
 #include <string.h> 
@@ -107,3 +108,32 @@ int main(int argc, char *argv[])
         recievedOP.push_back(token);
         token = strtok(NULL, " "); 
     } 
+
+    if( recievedOP[0][0] == 'f' )
+    {
+    	
+    	float v1 = stof(recievedOP[1]);
+    	float v2 = stof(recievedOP[2]);
+    	float myAns;
+
+    	if( recievedOP[0]=="fsub" )
+    		myAns = v1-v2;
+
+    	else if( recievedOP[0] == "fadd" )
+    		myAns = v1+v2;
+    	
+    	else if( recievedOP[0]=="fdiv" )
+    		myAns = v1/v2;
+
+    	else myAns = v1*v2;
+
+    	char myANSWER[100];
+	    int j=0;
+	    string ans = to_string(myAns);
+	    for(int i=0;i<ans.length();i++)
+	    	myANSWER[j++] = ans[i];
+	    myANSWER[j] = '\0';
+	    
+	    strcpy(sendMsg, myANSWER); 
+    	send(client, sendMsg, buffLength, 0); 
+    }
