@@ -29,7 +29,8 @@ using namespace std;
 #define Vs           vector<string>
 #define VI           vector<vector<ll> >
 #define PII          pair<ll,ll> 
-#define PSI          pair<string,ll>#define PB           push_back
+#define PSI          pair<string,ll>
+#define PB           push_back
 
 
 int main(int argc, char *argv[])
@@ -97,28 +98,3 @@ int main(int argc, char *argv[])
   			strcpy(sendMsg, tcpVersions[i]); 
         	send(acc, sendMsg, buffLength, 0); 
   		}
-  		recv(acc, recieve, buffLength, 0); 
-        printf("Client : %s", recieve); 
-        cout << "\n";
-
-
-        vector<string> availableOps;
-        availableOps.push_back("add");
-        availableOps.push_back("fadd");
-        availableOps.push_back("sub");
-        availableOps.push_back("fsub");
-        availableOps.push_back("div");
-        availableOps.push_back("fdiv");
-        availableOps.push_back("mul");
-        availableOps.push_back("fmul");
-
-        srand(time(0));
-  			
-        
-        
-    }  
-    return 0; 
-
-
-}
-
